@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#6c5ce7">
+  <meta name="description" content="Kartu Kuartet Drama — game edukatif Bahasa Indonesia kelas XII.">
+  <title>Kartu Kuartet Drama</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">🎭</div>
+        <div>
+          <h1>Kartu Kuartet Drama</h1>
+          <p>Bahasa Indonesia • Kelas XII</p>
+        </div>
+      </div>
+      <button id="btnRules" class="icon-btn" type="button" title="Aturan permainan">❔ <span>Aturan</span></button>
+    </header>
+
+    <main>
+      <section id="screenHome" class="screen active">
+        <div class="hero-card">
+          <div class="hero-copy">
+            <span class="eyebrow">BAB III • DRAMA</span>
+            <h2>Susun kuartetnya,<br><strong>kuasai dramanya!</strong></h2>
+            <p>Kumpulkan 4 kartu yang satu kelompok. Minta kartu yang kamu butuhkan dari pemain lain dan lengkapi kuartet sebanyak mungkin.</p>
+            <button id="btnStart" class="primary-btn" type="button">🎬 Mulai Bermain</button>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="stage-glow"></div>
+            <div class="curtain curtain-left"></div>
+            <div class="curtain curtain-right"></div>
+            <div class="mask mask-1">🎭</div>
+            <div class="mask mask-2">🎭</div>
+            <div class="spark s1">✦</div><div class="spark s2">✦</div><div class="spark s3">✧</div>
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <article class="info-card"><span>🃏</span><h3>24 Kartu</h3><p>6 kuartet × 4 kartu</p></article>
+          <article class="info-card"><span>👥</span><h3>2–4 Pemain</h3><p>Pass-and-play satu perangkat</p></article>
+          <article class="info-card"><span>🧠</span><h3>Materi Drama</h3><p>Istilah dan konsep inti Bab III</p></article>
+        </div>
+
+        <div class="notice"><span>💡</span><p><strong>Mode aman untuk kelas:</strong> game tidak membutuhkan akun, internet, atau penyimpanan data siswa.</p></div>
+      </section>
+
+      <section id="screenSetup" class="screen">
+        <div class="section-head"><button class="back-btn" data-back="screenHome">←</button><div><span class="eyebrow">PENGATURAN</span><h2>Siapkan permainan</h2></div></div>
+        <div class="setup-card">
+          <label for="playerCount">Jumlah pemain</label>
+          <div id="playerCount" class="segmented" role="radiogroup" aria-label="Jumlah pemain">
+            <button type="button" data-count="2" class="selected">2</button>
+            <button type="button" data-count="3">3</button>
+            <button type="button" data-count="4">4</button>
+          </div>
+          <div id="playerInputs" class="player-inputs"></div>
+          <div class="setup-tip">🎯 Setiap pemain akan menerima kartu secara acak. Jangan tunjukkan kartu tanganmu kepada pemain lain.</div>
+          <button id="btnDeal" class="primary-btn full" type="button">🃏 Bagikan Kartu</button>
+        </div>
+      </section>
+
+      <section id="screenGame" class="screen">
+        <div class="game-head">
+          <div><span class="eyebrow">SEDANG BERMAIN</span><h2 id="turnTitle">Giliran Pemain</h2></div>
+          <div class="score-pills" id="scorePills"></div>
+        </div>
+
+        <div id="turnNotice" class="turn-notice"></div>
+
+        <div class="game-layout">
+          <aside class="sidebar-card">
+            <h3>🏆 Kuartet</h3>
+            <div id="quartetStatus" class="quartet-status"></div>
+            <button id="btnHand" class="secondary-btn full" type="button">🃏 Lihat Kartu Saya</button>
+            <button id="btnRestart" class="text-btn full" type="button">↻ Mulai Ulang</button>
+          </aside>
+
+          <section class="table-card">
+            <div class="table-topline"><span>Meja Permainan</span><span id="deckInfo">24 kartu</span></div>
+            <div id="opponents" class="opponents"></div>
+            <div class="table-center"><div class="table-logo">🎭</div><p id="tableHint">Pilih tindakan untuk memulai.</p></div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="handModal" class="modal" aria-hidden="true">
+    <div class="modal-card large">
+      <div class="modal-head"><div><span class="eyebrow">KARTU DI TANGAN</span><h2 id="handTitle">Kartu Saya</h2></div><button class="close-btn" data-close="handModal">×</button></div>
+      <div id="handGrid" class="hand-grid"></div>
+    </div>
+  </div>
+
+  <div id="askModal" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-head"><div><span class="eyebrow">AKSI PEMAIN</span><h2>Minta satu kartu</h2></div><button class="close-btn" data-close="askModal">×</button></div>
+      <p id="askHelp" class="modal-help"></p>
+      <div id="askQuartet" class="ask-quartet"></div>
+      <div id="askPlayers" class="ask-players"></div>
+      <div id="askCards" class="ask-cards hidden"></div>
+    </div>
+  </div>
+
+  <div id="rulesModal" class="modal" aria-hidden="true">
+    <div class="modal-card large rules">
+      <div class="modal-head"><div><span class="eyebrow">CARA BERMAIN</span><h2>Kartu Kuartet Drama</h2></div><button class="close-btn" data-close="rulesModal">×</button></div>
+      <ol>
+        <li>Setiap pemain mendapat kartu secara acak.</li>
+        <li>Saat giliranmu, kamu harus memiliki minimal satu kartu dari kuartet yang ingin kamu lengkapi.</li>
+        <li>Pilih pemain lain, lalu pilih kartu tertentu yang ingin diminta.</li>
+        <li>Jika pemain tersebut memiliki kartu yang diminta, kartu berpindah ke tanganmu dan kamu boleh meminta lagi.</li>
+        <li>Jika tidak memiliki, giliran berpindah ke pemain berikutnya.</li>
+        <li>Jika kamu memiliki 4 kartu dari satu kuartet, kuartet otomatis dikunci dan mendapat 1 poin.</li>
+        <li>Permainan berakhir setelah semua kartu menjadi kuartet. Pemain dengan poin kuartet terbanyak menang.</li>
+      </ol>
+      <div class="rules-note"><strong>Catatan:</strong> Kartu yang sudah menjadi kuartet tidak dapat diminta lagi.</div>
+    </div>
+  </div>
+
+  <div id="resultModal" class="modal" aria-hidden="true">
+    <div class="modal-card result-card">
+      <div class="result-icon">🏆</div>
+      <span class="eyebrow">PERMAINAN SELESAI</span>
+      <h2 id="winnerTitle">Hasil Permainan</h2>
+      <p id="winnerText"></p>
+      <div id="finalScores" class="final-scores"></div>
+      <button id="btnPlayAgain" class="primary-btn full" type="button">🎬 Main Lagi</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js" defer></script>
+</body>
+</html>
